@@ -10,3 +10,7 @@ REST api and advanced backend services for MobiLapse project
 ### Deploy cloud run instnce
 
 `gcloud run deploy --platform=managed --region=europe-west1 --image gcr.io/mobilapse/mobiapi mobiapicr`
+
+## Combined
+
+`gcloud builds submit --tag gcr.io/mobilapse/mobiapi && gcloud run deploy --platform=managed --region=europe-west1 --image gcr.io/mobilapse/mobiapi mobiapicr`

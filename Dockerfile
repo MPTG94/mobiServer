@@ -16,6 +16,9 @@ RUN pip3 install marshmallow
 RUN pip3 install --upgrade google-cloud-storage
 RUN pip3 install firebase-admin
 
+RUN apt-get update
+RUN apt-get install ffmpeg libsm6 libxext6  -y
+
 # Run the web service on container startup. Here we use the gunicorn
 # webserver, with 4 worker process and 4 threads.
 CMD exec gunicorn --bind :$PORT --workers 4 --threads 4 app:app
