@@ -9,7 +9,7 @@ from config import STORAGE_BUCKET
 from filesystem_handler import create_sub_folders_in_path
 
 CAPTURED_IMAGES_ROOT_PATH = 'robotImages/'
-VIDEO_CONTENT_TYPE = 'video/x-msvideo'
+VIDEO_CONTENT_TYPE = 'video/webm'
 
 logger = logging.getLogger('gcp_logger')
 
