@@ -22,9 +22,12 @@ def convert_downloaded_images_to_videos(dir_path, result_folder_list, datetime: 
             img = cv2.imread(filename)
             height, width, layers = img.shape
             img_list.append(img)
-        output_video_name = f'capture_{curr_capture}_{datetime}.webm'
+        # output_video_name = f'capture_{curr_capture}_{datetime}.webm'
+        output_video_name = f'capture_{curr_capture}_{datetime}.mp4'
+        # out = cv2.VideoWriter(os.path.join(target_directory, output_video_name),
+        #                       cv2.VideoWriter_fourcc(*'vp80'), 1, target_size)
         out = cv2.VideoWriter(os.path.join(target_directory, output_video_name),
-                              cv2.VideoWriter_fourcc(*'vp80'), 1, target_size)
+                              cv2.VideoWriter_fourcc(*'MP4V'), 1, target_size)
         for i in range(len(img_list)):
             img = cv2.resize(img_list[i], target_size)
             out.write(img)

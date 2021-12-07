@@ -7,13 +7,10 @@ import marshmallow.exceptions
 from flask import Flask, request
 
 from capture_handler import convert_downloaded_images_to_videos
-from config import ENVIRONMENT, PORT
+from config import ENVIRONMENT, PORT, API_REQUEST_DATETIME_FORMAT, STORAGE_TARGET_DATETIME_FORMAT
 from filesystem_handler import create_temp_dir
 from request_validators import ConvertImagesToVideoSchema
 from storage_handler import download_captured_images_to_temp_dir, upload_result_videos_to_bucket
-
-API_REQUEST_DATETIME_FORMAT = '%d-%m-%YT%H-%M-%S'
-STORAGE_TARGET_DATETIME_FORMAT = '%Y-%m-%dT%H-%M-%S'
 
 logger = logging.getLogger('gcp_logger')
 
