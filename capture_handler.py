@@ -15,19 +15,27 @@ def convert_downloaded_images_to_videos(dir_path, result_folder_list, datetime: 
     create_sub_folders_in_path(target_directory)
     curr_capture = 1
     for folder in result_folder_list:
-        source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*.jpg'
-        target_size = (1280, 720)
+        # source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*.jpg'
+        # The robot captures png images
+        source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*.png'
+        target_size = (300, 300)
         for filename in glob.glob(source_images_filter):
             print(filename)
             img = cv2.imread(filename)
             height, width, layers = img.shape
             img_list.append(img)
-        # output_video_name = f'capture_{curr_capture}_{datetime}.webm'
-        output_video_name = f'capture_{curr_capture}_{datetime}.mp4'
-        # out = cv2.VideoWriter(os.path.join(target_directory, output_video_name),
-        #                       cv2.VideoWriter_fourcc(*'vp80'), 1, target_size)
+        # For webm files (can be played by browser and android)
+        output_video_name = f'capture_{curr_capture}_{datetime}.webm'
         out = cv2.VideoWriter(os.path.join(target_directory, output_video_name),
-                              cv2.VideoWriter_fourcc(*'MP4V'), 1, target_size)
+                              cv2.VideoWriter_fourcc(*'vp80'), 1, target_size)
+        # For mp4 files (can be played by android)
+        # output_video_name = f'capture_{curr_capture}_{datetime}.mp4'
+        # out = cv2.VideoWriter(os.path.join(target_directory, output_video_name),
+        #                       cv2.VideoWriter_fourcc(*'MP4V'), 1, target_size)
+        # For avi files (can be played by android)
+        # output_video_name = f'capture_{curr_capture}_{datetime}.avi'
+        # out = cv2.VideoWriter(os.path.join(target_directory, output_video_name),
+        #                       cv2.VideoWriter_fourcc(*'MJPG'), 1, target_size)
         for i in range(len(img_list)):
             img = cv2.resize(img_list[i], target_size)
             out.write(img)
