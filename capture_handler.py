@@ -18,11 +18,12 @@ def convert_downloaded_images_to_videos(dir_path, result_folder_list, datetime: 
         # source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*.jpg'
         # The robot captures png images
         source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*.png'
-        target_size = (300, 300)
+        target_size = None
         for filename in glob.glob(source_images_filter):
             print(filename)
             img = cv2.imread(filename)
             height, width, layers = img.shape
+            target_size = (height, width)
             img_list.append(img)
         # For webm files (can be played by browser and android)
         output_video_name = f'capture_{curr_capture}_{datetime}.webm'
