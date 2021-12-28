@@ -17,7 +17,7 @@ def convert_downloaded_images_to_videos(dir_path, result_folder_list, datetime: 
     for folder in result_folder_list:
         # source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*.jpg'
         # The robot captures png images
-        source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*.png'
+        source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*_crop.png'
         target_size = None
         for filename in glob.glob(source_images_filter):
             print(filename)
@@ -54,10 +54,10 @@ def crop_and_adjust_img_to_img(prev_img_path, target_img_path) -> str:
         # first img just crop into its center
         ref_img = cv2.imread(target_img_path, cv2.IMREAD_COLOR)
         img_final_color = ref_img[margin: -margin,  margin:-margin]
-        tmp_index = target_img_path.index('.jpg')
-        corp_img_name = target_img_path[:tmp_index] + '_crop.jpg'
-        cv2.imwrite(corp_img_name, img_final_color)
-        return corp_img_name
+        tmp_index = target_img_path.index('.png')
+        crop_img_name = target_img_path[:tmp_index] + '_crop.png'
+        cv2.imwrite(crop_img_name, img_final_color)
+        return crop_img_name
 
     # loading the imgs in gray for the coming matching method
     img_to_crop = cv2.imread(target_img_path, cv2.IMREAD_GRAYSCALE)
@@ -70,13 +70,13 @@ def crop_and_adjust_img_to_img(prev_img_path, target_img_path) -> str:
     top_left = cv2.minMaxLoc(res_locs)[-1]
 
     # save a copy of the img (with color) with crop according to the location we found
-    tmp_index = target_img_path.index('.jpg')
+    tmp_index = target_img_path.index('.png')
     img_to_crop_color = cv2.imread(target_img_path, cv2.IMREAD_COLOR)
     img_final_color = img_to_crop_color[top_left[1]
         :top_left[1]+height, top_left[0]: top_left[0]+weight]
-    corp_img_name = target_img_path[:tmp_index] + '_crop.jpg'
-    cv2.imwrite(corp_img_name, img_final_color)
-    return corp_img_name
+    crop_img_name = target_img_path[:tmp_index] + '_crop.png'
+    cv2.imwrite(crop_img_name, img_final_color)
+    return crop_img_name
 
 
 def crop_and_adjust(dir_path, result_folder_list):

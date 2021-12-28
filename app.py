@@ -6,7 +6,7 @@ import traceback
 import marshmallow.exceptions
 from flask import Flask, request
 
-from capture_handler import convert_downloaded_images_to_videos, corp_and_adjust
+from capture_handler import convert_downloaded_images_to_videos, crop_and_adjust
 from config import ENVIRONMENT, PORT, API_REQUEST_DATETIME_FORMAT, STORAGE_TARGET_DATETIME_FORMAT
 from filesystem_handler import create_temp_dir
 from request_validators import ConvertImagesToVideoSchema
@@ -34,7 +34,7 @@ def convert_images_to_video():
         temp_dir = create_temp_dir()
         result_folder_list = download_captured_images_to_temp_dir(
             temp_dir, data['objects'], data['datetime'])
-        corp_and_adjust(temp_dir, result_folder_list)
+        crop_and_adjust(temp_dir, result_folder_list)
         timestamp_obj = datetime.datetime.strptime(
             data['datetime'], API_REQUEST_DATETIME_FORMAT)
         output_dir = convert_downloaded_images_to_videos(temp_dir, result_folder_list,
