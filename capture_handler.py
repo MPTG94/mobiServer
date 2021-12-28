@@ -41,7 +41,55 @@ def convert_downloaded_images_to_videos(dir_path, result_folder_list, datetime: 
             img = cv2.resize(img_list[i], target_size)
             out.write(img)
         out.release()
-        logger.warning(f'Created video: {output_video_name} at path: {target_directory}')
+        logger.warning(
+            f'Created video: {output_video_name} at path: {target_directory}')
         curr_capture += 1
         img_list = []
     return target_directory
+
+
+def crop_and_adjust_img_to_img(prev_img_path, target_img_path) -> str:
+    margin = 100
+    if prev_img_path is None or prev_img_path == '':
+        # first img just crop into its center
+        ref_img = cv2.imread(target_img_path, cv2.IMREAD_COLOR)
+        img_final_color = ref_img[margin: -margin,  margin:-margin]
+        tmp_index = target_img_path.index('.jpg')
+        corp_img_name = target_img_path[:tmp_index] + '_crop.jpg'
+        cv2.imwrite(corp_img_name, img_final_color)
+        return corp_img_name
+
+    # loading the imgs in gray for the coming matching method
+    img_to_crop = cv2.imread(target_img_path, cv2.IMREAD_GRAYSCALE)
+    ref_img = cv2.imread(prev_img_path, cv2.IMREAD_GRAYSCALE)
+
+    height, weight = ref_img.shape
+    # finding the best location which the imgs are corresponding together
+    res_locs = cv2.matchTemplate(img_to_crop, ref_img, cv2.TM_CCOEFF)
+    # min_val, max_val, min_loc, top_left = cv2.minMaxLoc(res_locs)
+    top_left = cv2.minMaxLoc(res_locs)[-1]
+
+    # save a copy of the img (with color) with crop according to the location we found
+    tmp_index = target_img_path.index('.jpg')
+    img_to_crop_color = cv2.imread(target_img_path, cv2.IMREAD_COLOR)
+    img_final_color = img_to_crop_color[top_left[1]
+        :top_left[1]+height, top_left[0]: top_left[0]+weight]
+    corp_img_name = target_img_path[:tmp_index] + '_crop.jpg'
+    cv2.imwrite(corp_img_name, img_final_color)
+    return corp_img_name
+
+
+def crop_and_adjust(dir_path, result_folder_list):
+    target_directory = os.path.join(dir_path, 'output')
+    create_sub_folders_in_path(target_directory)
+    for folder in result_folder_list:
+        # source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*.jpg'
+        # The robot captures png images
+        source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*.png'
+        prev_filename = None
+        filter_list = glob.glob(source_images_filter)
+        for filename in filter_list:
+            if 'crop' in filename:
+                continue
+            prev_filename = crop_and_adjust_img_to_img(
+                prev_img_path=prev_filename, target_img_path=filename)
