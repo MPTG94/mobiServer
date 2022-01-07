@@ -49,7 +49,7 @@ def convert_downloaded_images_to_videos(dir_path, result_folder_list, datetime: 
 
 
 def crop_and_adjust_img_to_img(prev_img_path, target_img_path) -> str:
-    margin = 100
+    margin = 50
     if prev_img_path is None or prev_img_path == '':
         # first img just crop into its center
         ref_img = cv2.imread(target_img_path, cv2.IMREAD_COLOR)
