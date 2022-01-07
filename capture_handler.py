@@ -23,7 +23,7 @@ def convert_downloaded_images_to_videos(dir_path, result_folder_list, datetime: 
             print(filename)
             img = cv2.imread(filename)
             height, width, layers = img.shape
-            target_size = (height, width)
+            target_size = (width, height)
             img_list.append(img)
         # For webm files (can be played by browser and android)
         output_video_name = f'capture_{curr_capture}_{datetime}.webm'
@@ -49,7 +49,7 @@ def convert_downloaded_images_to_videos(dir_path, result_folder_list, datetime: 
 
 
 def crop_and_adjust_img_to_img(prev_img_path, target_img_path) -> str:
-    margin = 50
+    margin = 71
     if prev_img_path is None or prev_img_path == '':
         # first img just crop into its center
         ref_img = cv2.imread(target_img_path, cv2.IMREAD_COLOR)
