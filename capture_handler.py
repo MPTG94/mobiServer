@@ -20,11 +20,6 @@ def convert_downloaded_images_to_videos(dir_path, result_folder_list, datetime: 
         source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*_crop.png'
         target_size = None
         filter_list = glob.glob(source_images_filter)
-        # ################## TODO
-        print(filter_list)
-        sorted(filter_list, key=lambda x: int(x[:-4]))
-        print(filter_list)
-        # ################## TODO
         for filename in filter_list:
             print(filename)
             img = cv2.imread(filename)
@@ -94,12 +89,6 @@ def crop_and_adjust(dir_path, result_folder_list):
         source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*.png'
         prev_filename = None
         filter_list = glob.glob(source_images_filter)
-        # ################## TODO
-        print(filter_list)
-        sorted(filter_list, key=lambda x: int(x[:-4]))
-        print(filter_list)
-        # ################## TODO
-
         for filename in filter_list:
             if 'crop' in filename:
                 continue
