@@ -17,8 +17,8 @@ def convert_downloaded_images_to_videos(dir_path, result_folder_list, datetime: 
     for folder in result_folder_list:
         # source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*.jpg'
         # The robot captures png images
-        # source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*.png'  # TODO
-        source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*_crop.png'  # TODO
+        source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*.png'  # TODO
+        # source_images_filter = f'{os.path.join(dir_path, folder)}{os.path.sep}*_crop.png'  # TODO
         target_size = None
         filter_list = glob.glob(source_images_filter)
         for filename in filter_list:

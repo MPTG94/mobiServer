@@ -35,7 +35,7 @@ def convert_images_to_video():
         result_folder_list = download_captured_images_to_temp_dir(
             temp_dir, data['objects'], data['datetime'])
 
-        crop_and_adjust(temp_dir, result_folder_list)  # TODO
+        # crop_and_adjust(temp_dir, result_folder_list)  # TODO
 
         timestamp_obj = datetime.datetime.strptime(
             data['datetime'], API_REQUEST_DATETIME_FORMAT)
